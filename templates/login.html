@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCMXpertLite - Login</title>
+  <!-- Load reCAPTCHA API -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    
+    .auth-container {
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    .auth-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .auth-card h2 {
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+    }
+    
+    .auth-card h3 {
+      color: #334155;
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+    
+    .auth-card p {
+      color: #64748b;
+      margin-bottom: 1.75rem;
+      font-size: 0.9375rem;
+    }
+    
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    
+    input {
+      padding: 0.875rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.875rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    
+    button:hover {
+      background-color: #2563eb;
+    }
+    
+    .flash {
+      padding: 0.875rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9375rem;
+      text-align: left;
+    }
+    
+    .flash.error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    
+    .flash.success {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    
+    .g-recaptcha {
+      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .switch-link {
+      color: #64748b;
+      font-size: 0.9375rem;
+    }
+    
+    .switch-link a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>SCMXpertLite</h2>
+      <h3>Welcome back!</h3>
+      <p>Please login with your credentials.</p>
+
+      <div id="error-message" class="flash error" style="display: none;"></div>
+      <div id="success-message" class="flash success" style="display: none;"></div>
+
+      <form method="POST" id="loginForm" action="/login">
+        <input type="email" name="username" placeholder="Email address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <!-- Replace with your actual site key -->
+        <div class="g-recaptcha" data-sitekey="6Lca5TArAAAAADRedne525SsKt5jf-252ADg2uBS"></div>
+        <button type="submit">Sign In</button>
+      </form>
+      
+      <p class="switch-link">New here? <a href="/signup">Create an account</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission with reCAPTCHA validation
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      const recaptchaResponse = grecaptcha.getResponse();
+      
+      if (!recaptchaResponse) {
+        e.preventDefault();
+        showError('Please complete the reCAPTCHA verification');
+        return false;
+      }
+    });
+
+    // Display URL error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      
+      if (params.has('error')) {
+        showError(params.get('error'));
+      }
+      
+      if (params.has('message')) {
+        showSuccess(params.get('message'));
+      }
+    });
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+      document.getElementById('success-message').style.display = 'none';
+      grecaptcha.reset();
+    }
+
+    function showSuccess(message) {
+      const successDiv = document.getElementById('success-message');
+      successDiv.textContent = message;
+      successDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

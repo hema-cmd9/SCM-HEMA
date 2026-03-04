@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', path='admin.css') }}">
+    
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --sidebar-bg: #2b2d42;
+            --sidebar-text: #edf2f4;
+            --sidebar-hover: rgba(237, 242, 244, 0.1);
+            --content-bg: #f8f9fa;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--content-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+        
+        .brand h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .sidebar-links {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+        
+        .nav-links {
+            list-style: none;
+            margin-bottom: auto;
+        }
+        
+        .nav-links li {
+            margin: 4px 0;
+        }
+        
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            background: var(--sidebar-hover);
+            padding-left: 24px;
+        }
+        
+        .logout-container {
+            padding: 0 20px 20px;
+        }
+        
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 0;
+            }
+            
+            .nav-links {
+                padding: 10px 0;
+            }
+            
+            .nav-links a {
+                padding: 12px 20px;
+            }
+            
+            .nav-links a:hover {
+                padding-left: 20px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="brand">
+            <h3>Exafluence</h3>
+        </div>
+
+        <div class="sidebar-links">
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/user-profile">User Profile</a></li>
+                <li><a href="/create-shipment">New Shipment</a></li>
+            </ul>
+
+            <div class="logout-container">
+                <a class="logout-btn" href="/logout">Logout</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>

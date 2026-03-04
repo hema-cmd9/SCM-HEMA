@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Shipment - SCMXPertLite</title>
+  <style>
+    /* Modern CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      background-color: #00060c;
+      color: white;
+      padding: 1.5rem 1rem;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    .sidebar-header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+      text-align: center;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-menu a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-menu a:hover {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .sidebar-menu a.active {
+      background-color: #3498db;
+      color: white;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    /* Form Container */
+    .form-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .form-container h2 {
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    /* Alert Messages */
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Form Group Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #2c3e50;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="date"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group input[type="date"]:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    /* Form Actions */
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .form-actions button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .form-actions button[type="submit"] {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .form-actions button[type="submit"]:hover {
+      background-color: #2980b9;
+    }
+
+    .form-actions .clear-btn {
+      background-color: #f1f1f1;
+      color: #333;
+    }
+
+    .form-actions .clear-btn:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .main-content {
+        padding: 1.5rem;
+      }
+      
+      .form-container {
+        padding: 1.5rem;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">SCMXPertLite</div>
+    <ul class="sidebar-menu">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="form-container">
+      <h2>Create New Shipment</h2>
+
+      <!-- Success message placeholder -->
+      <div id="successMessage" class="alert-success" style="display: none;"></div>
+
+      <!-- Error message placeholder -->
+      <div id="errorMessage" class="alert-error" style="display: none;"></div>
+
+      <form id="shipmentForm" method="POST" action="/create-shipment">
+        <div class="form-group">
+          <label for="shipmentNumber">Shipment Number</label>
+          <input type="text" id="shipmentNumber" name="shipmentNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="route">Select Route</label>
+          <select id="route" name="route" required>
+            <option value="" disabled selected>Select Route</option>
+            <option value="Route A">Route A</option>
+            <option value="Route B">Route B</option>
+            <option value="Route C">Route C</option>
+            <option value="Route D">Route D</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="device">Device</label>
+          <select id="device" name="device" required>
+            <option value="" disabled selected>Select Device</option>
+            <option value="Device 1">Device 1</option>
+            <option value="Device 2">Device 2</option>
+            <option value="Device 3">Device 3</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="poNumber">PO Number</label>
+          <input type="text" id="poNumber" name="poNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="ndcNumber">NDC Number</label>
+          <input type="text" id="ndcNumber" name="ndcNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="serialNumber">Serial Number of Goods</label>
+          <input type="text" id="serialNumber" name="serialNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="goodsType">Goods Type</label>
+          <select id="goodsType" name="goodsType" required>
+            <option value="" disabled selected>Select Goods Type</option>
+            <option value="Goods1">Goods1</option>
+            <option value="Goods2">Goods2</option>
+            <option value="Goods3">Goods3</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="deliveryDate">Expected Delivery Date</label>
+          <input type="date" id="deliveryDate" name="deliveryDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="deliveryNumber">Delivery Number</label>
+          <input type="text" id="deliveryNumber" name="deliveryNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label for="batchId">Batch ID</label>
+          <input type="text" id="batchId" name="batchId" required>
+        </div>
+
+        <div class="form-group">
+          <label for="shipmentDesc">Shipment Description</label>
+          <textarea id="shipmentDesc" name="shipmentDesc" required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Create Shipment</button>
+          <button type="reset" class="clear-btn">Clear Details</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Handle URL parameters for success/error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      
+      // Set min date for delivery date
+      const deliveryDateInput = document.getElementById('deliveryDate');
+      const today = new Date().toISOString().split('T')[0];
+      deliveryDateInput.min = today;
+
+      // Display success message if present in URL
+      if (params.has('success')) {
+        const successDiv = document.getElementById('successMessage');
+        successDiv.textContent = params.get('success');
+        successDiv.style.display = 'block';
+        
+        setTimeout(() => {
+          successDiv.style.display = 'none';
+        }, 3000);
+      }
+      
+      // Display error message if present in URL
+      if (params.has('error')) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = params.get('error');
+        errorDiv.style.display = 'block';
+        
+        setTimeout(() => {
+          errorDiv.style.display = 'none';
+        }, 3000);
+      }
+    });
+
+    // Form validation
+    document.getElementById('shipmentForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Stop form from submitting until validation passes
+
+      // Clear any existing error messages
+      const existingError = document.getElementById('errorMessage');
+      if (existingError) existingError.style.display = 'none';
+
+      // Show error function
+      function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        
+        setTimeout(() => {
+          errorDiv.style.display = 'none';
+        }, 3000);
+      }
+
+      // Validate required fields
+      const requiredFields = [
+        'shipmentNumber', 'route', 'device', 'poNumber', 'ndcNumber', 
+        'serialNumber', 'goodsType', 'deliveryDate', 'deliveryNumber', 'batchId', 'shipmentDesc'
+      ];
+
+      for (const fieldId of requiredFields) {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+          showError(`Please fill in the ${field.labels[0].textContent} field.`);
+          field.focus();
+          return;
+        }
+      }
+
+      // Validate numeric fields
+      const numericFields = {
+        'poNumber': 'PO Number',
+        'ndcNumber': 'NDC Number', 
+        'serialNumber': 'Serial Number',
+        'deliveryNumber': 'Delivery Number'
+      };
+
+      for (const [fieldId, fieldName] of Object.entries(numericFields)) {
+        const value = document.getElementById(fieldId).value.trim();
+        if (!/^\d+$/.test(value)) {
+          showError(`${fieldName} must contain only numbers.`);
+          document.getElementById(fieldId).focus();
+          return;
+        }
+      }
+
+      // Validate shipment number format (alphanumeric)
+      const shipmentNumber = document.getElementById('shipmentNumber').value.trim();
+      if (!/^[a-zA-Z0-9-]+$/.test(shipmentNumber)) {
+        showError('Shipment Number must be alphanumeric (letters, numbers, or hyphens)');
+        document.getElementById('shipmentNumber').focus();
+        return;
+      }
+
+      // All validations passed - submit form
+      this.submit();
+    });
+  </script>
+</body>
+</html>

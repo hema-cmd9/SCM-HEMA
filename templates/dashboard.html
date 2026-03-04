@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - SCMXPertLite</title>
+  <style>
+    /* Modern CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f5f7fa;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      background-color: #00060c;
+      color: white;
+      padding: 1.5rem 1rem;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      padding: 0 0.5rem;
+      text-align: center;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-menu a {
+      display: block;
+      color: #ecf0f1;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-menu a:hover {
+      background-color: #34495e;
+      color: white;
+    }
+
+    .sidebar-menu a.active {
+      background-color: #3498db;
+      color: white;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .main-content h1 {
+      color: #2c3e50;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    /* Panel Container */
+    .panel-container {
+      display: block;
+      flex-direction: row;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Panel Styles */
+    .panel {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .panel:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .panel h3 {
+      color: #34495e;
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: block;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .main-content {
+        padding: 1.5rem;
+      }
+      
+      .main-content h1 {
+        font-size: 1.5rem;
+      }
+      
+      .panel {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">SCMXPertLite</div>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active">Dashboard</a></li>
+      <li><a href="/create-shipment">Create Shipment</a></li>
+      <li><a href="/myshipment">Shipments List</a></li>
+      <li><a href="/user-profile">User Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <h1>Hi </strong> {{ user.name }}, Welcome to SCMXPertLite</h1>
+    <div class="panel-container">
+      <div class="panel left-panel">
+        <h3>Create a New Shipment</h3>
+        <a href="/create-shipment" class="btn">Create Shipment</a>
+      </div>
+    </div>
+    <div class="panel-container">
+      <div class="panel left-panel">
+    <h3>My shipment</h3>
+        <a href="/allshipment" class="btn">Shipment_List</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

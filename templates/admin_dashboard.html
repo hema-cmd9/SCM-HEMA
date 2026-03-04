@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SCMXPertLite Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ====== CSS Reset ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* ====== Base Styles ====== */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ====== Sidebar Styles ====== */
+        .sidebar {
+            width: 250px;
+            background-color: #1e293b;
+            color: white;
+            padding: 1.5rem 1rem;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+        }
+
+        .sidebar-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding: 0.5rem;
+            text-align: center;
+            color: #ffffff;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 1rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #334155;
+            color: white;
+        }
+
+        .sidebar-menu a.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .sidebar-menu i {
+            margin-right: 0.75rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* ====== Main Content Styles ====== */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* ====== Header Styles ====== */
+        .welcome-title {
+            color: #0f172a;
+            margin-bottom: 2.5rem;
+            font-size: 1.875rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .welcome-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 2px;
+        }
+        
+        /* ====== Action Panels ====== */
+        .action-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .action-panel {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.75rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border-top: 4px solid transparent;
+        }
+        
+        .action-panel:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                        0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .panel-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .action-panel h3 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        
+        /* ====== Button Styles ====== */
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-top: auto;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .action-btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        /* ====== Panel Accent Colors ====== */
+        .create-shipment {
+            border-top-color: #10b981;
+        }
+        
+        .manage-users {
+            border-top-color: #f59e0b;
+        }
+        
+        .view-data {
+            border-top-color: #8b5cf6;
+        }
+        
+        /* ====== Responsive Styles ====== */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                padding: 1.5rem;
+            }
+            
+            .dashboard-content {
+                padding: 1.5rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .action-panels {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">Exafluence</div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/admin-profile"><i class="fas fa-user"></i> Admin Profile</a></li>
+            <li><a href="/Manageusers"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li><a href="/allshipment"><i class="fas fa-shipping-fast"></i> All Shipment</a></li>
+            <li><a href="/create-shipment"><i class="fas fa-plus-circle"></i> New Shipment</a></li>
+            <li><a href="/data-streaming"><i class="fas fa-server"></i> Device Data</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="dashboard-content">
+            <h2 class="welcome-title">Hi Admin, Welcome to SCMXPertLite</h2>
+
+            <div class="action-panels">
+                <div class="action-panel create-shipment">
+                    <div class="panel-content">
+                        <h3>Create a New Shipment</h3>
+                        <a href="/create-shipment" class="action-btn">Create Shipment</a>
+                    </div>
+                </div>
+
+                <div class="action-panel manage-users">
+                    <div class="panel-content">
+                        <h3>Manage Users</h3>
+                        <a href="/Manageusers" class="action-btn">Manage Users</a>
+                    </div>
+                </div>    
+
+                <div class="action-panel view-data">
+                    <div class="panel-content">
+                        <h3>View Device Data Stream</h3>
+                        <a href="/data-streaming" class="action-btn">Data Streaming</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

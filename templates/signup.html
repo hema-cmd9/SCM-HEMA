@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCMXpertLite - Sign Up</title>
+  <style>
+    /* Modern CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Base Styles */
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+    
+    /* Auth Container */
+    .auth-container {
+      width: 100%;
+      max-width: 420px;
+    }
+    
+    /* Auth Card */
+    .auth-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    /* Headings */
+    .auth-card h2 {
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .auth-card h3 {
+      color: #334155;
+      margin-bottom: 1.75rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+    
+    /* Form Elements */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    
+    input {
+      padding: 0.875rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+    
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.875rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    
+    button:hover {
+      background-color: #2563eb;
+    }
+    
+    /* Flash Messages */
+    .flash {
+      padding: 0.875rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9375rem;
+      text-align: left;
+    }
+    
+    .flash.error {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    
+    .flash.success {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    
+    /* Footer Links */
+    small {
+      display: block;
+      color: #64748b;
+      margin-bottom: 1.25rem;
+      font-size: 0.8125rem;
+    }
+    
+    .switch-link {
+      color: #64748b;
+      font-size: 0.9375rem;
+    }
+    
+    .switch-link a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>SCMXpertLite</h2>
+      <h3>Create Account</h3>
+
+      <!-- Flash messages placeholder - will be populated by JavaScript -->
+      <div id="error-message" class="flash error" style="display: none;"></div>
+      <div id="success-message" class="flash success" style="display: none;"></div>
+
+      <form method="POST">
+        <input type="text" name="fullname" placeholder="Full Name" pattern="[A-Za-z ]+" title="Only letters and spaces allowed" required>
+        <input type="email" name="email" placeholder="Email Address" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+      
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <small>I accept the Privacy Policy & Terms of Use</small>
+      <p class="switch-link">Already have an account? <a href="#" id="login-link">Sign In</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Handle flash messages from URL parameters
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      
+      if (params.has('error')) {
+        document.getElementById('error-message').textContent = params.get('error');
+        document.getElementById('error-message').style.display = 'block';
+      }
+      
+      if (params.has('message')) {
+        document.getElementById('success-message').textContent = params.get('message');
+        document.getElementById('success-message').style.display = 'block';
+      }
+    });
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const fullname = document.querySelector('input[name="fullname"]').value;
+      if (!/^[A-Za-z ]+$/.test(fullname)) {
+        alert('Full Name can only contain letters and spaces.');
+        e.preventDefault();
+      }
+    });
+
+    // Login link handler
+    document.getElementById('login-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      // In a real app, this would redirect to your login page
+      alert('Redirecting to login page...');
+    });
+  </script>
+</body>
+</html>

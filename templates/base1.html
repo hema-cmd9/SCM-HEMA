@@ -1,0 +1,196 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', path='admin.css') }}">
+
+    {% block head_extra %}{% endblock %}
+    
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: #ecf0f1;
+            --content-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--content-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+        
+        .brand h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .sidebar-links {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+        }
+        
+        .logout-container {
+            padding: 0 20px;
+        }
+        
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--sidebar-text);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 15px 0;
+            }
+            
+            .brand {
+                padding: 0 15px 15px;
+            }
+            
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links li {
+                flex: 1 0 auto;
+                margin: 0;
+            }
+            
+            .nav-links a {
+                padding: 10px 15px;
+                text-align: center;
+            }
+            
+            .nav-links a:hover {
+                padding-left: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <div class="brand">
+            <h3>Exafluence</h3>
+        </div>
+
+        <div class="sidebar-links">
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/user-profile">User Profile</a></li>
+                <li><a href="/Manageusers">Manage Users</a></li>
+                <li><a href="/allshipment">All Shipment</a></li>
+                <li><a href="/create-shipment">New Shipment</a></li>
+                <li><a href="/device-data">Device Data</a></li>
+            </ul>
+
+            <div class="logout-container">
+                <a class="logout-btn" href="/logout">Logout</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>
